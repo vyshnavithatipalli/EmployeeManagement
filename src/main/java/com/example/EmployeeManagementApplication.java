@@ -1,5 +1,6 @@
 package com.example;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.boot.SpringApplication;
@@ -8,9 +9,12 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 
@@ -26,11 +30,23 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableCaching
 @EnableMongoAuditing
+@EnableAsync
 public class EmployeeManagementApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmployeeManagementApplication.class, args);
 	}
+
+	@Bean(name="taskExecutor")
+	public Executor getAsyncThreadPoolExecutor() {
+		ThreadPoolTaskExecutor taskExecutor=new ThreadPoolTaskExecutor();
+		taskExecutor.setCorePoolSize(20);
+		taskExecutor.setMaxPoolSize(1000);
+		taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
+		taskExecutor.setThreadNamePrefix("Async-");
+		return taskExecutor;
+	}
+	
 	 @Bean
 	    public Docket api() { 
 	        return new Docket(DocumentationType.SWAGGER_2)  

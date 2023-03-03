@@ -2,6 +2,7 @@ package com.example.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import com.example.model.Employee;
 @Component
 public interface EmployeeService {
 
-	public List<Employee> getEmployees();
+	public CompletableFuture<List<Employee>> getEmployees();
 
 	public Optional<Employee> getEmployeeByID(int employeeId);
 

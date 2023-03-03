@@ -2,10 +2,12 @@ package com.example.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +25,9 @@ public class EmployeeController {
 	EmployeeService employeeService;
 	
 	@GetMapping("/employees")
-	public ResponseEntity<List<Employee>> getEmployees() {
-		return new ResponseEntity<List<Employee>>(employeeService.getEmployees(),HttpStatus.OK);	
+	//@Async
+	public CompletableFuture<ResponseEntity> getEmployees() {
+		return employeeService.getEmployees().thenApply(ResponseEntity::ok);
 	}
 	@GetMapping("/employees/{employeeId}")
 	public ResponseEntity<Employee> getEmployeeByID(@PathVariable int employeeId) {
