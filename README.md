@@ -1,3 +1,18 @@
+Requirements to execute the code
+java installation
+sts
+MONGO DB connectivity-----download zip file and run mongod command
+KAFFA setup--download kafka Zip file
+inside zookeeper.properties file(located inside kafka zip under config):
+dataDir=C:/Users/thati/Downloads/kafka_2.12-3.4.0/kafka_2.12-3.4.0/zookeeper-data
+inside server.properties file(located inside kafka zip under config):
+log.dirs=C:/Users/thati/Downloads/kafka_2.12-3.4.0/kafka_2.12-3.4.0/kafka-logs
+
+to start Zookeeper-.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties 
+to start kafka.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+
+
 Employee Management
 
 CRUD Operations Included
